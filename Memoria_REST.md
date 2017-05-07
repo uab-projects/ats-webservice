@@ -162,7 +162,7 @@ El servicio REST que consumiremos para obtener el tiempo de una ciudad es [_Open
 https://api.openweathermap.org/data/2.5/weather?q=London
 ```
 Donde _London_ es la ciudad a consultar. También necesitamos añadir a estos _query parameters_ de la URL una _API key_ (parámetro `appid`) que podemos obtener registrándonos en _OpenWeatherMap_ y opcionalmente añadir el idioma de la respuesta mediante el parámetro `lang`, de manera que la URL a la que realizar el `GET` es
-```bash
+```
 https://api.openweathermap.org/data/2.5/weather?q=London&lang=es&appid=<token>
 ```
 #### Código para consumir el servicio
@@ -295,7 +295,210 @@ También podemos vincular a través del panel de administración web de Heroku, 
 <center>![](pics/rest_mandatory/heroku/01_heroku_github_automatic.png)</center>
 
 
+## Detalle de comunicaciones
+Revisemos de nuevo las comunicaciones con APIs del tipo REST en formato JSON que ocurren en nuestro sistema:
+
+<center>![](pics/rest_mandatory/heroku/rest_system_weather.png)</center>
+
+Recordamos que las primeras comunicaciones se realizan desde _Facebook Messenger_ hacia _API.ai_ para que éste interprete el lenguaje natural. A pesar de que la integración es automática, los mensajes que se intercambian también son una API en formato JSON usando webservices (recordemos que configuramos un _webhook_).
+
+En segundo lugar, _API.ai_ si detecta que la conversación solicita el tiempo, se comunicará con nuestro servicio web en _Heroku_ para obtener el tiempo.
+
+Y finalmente nuestro servicio web usa una API REST en formato JSON de _OpenWeatherMap_ para obtener el estado meteorológico
+
+### API de _Facebook Messenger_
+#### Notificación de nuevos mensajes
+En cuanto a _Facebook Messenger_, cuando un usuario introduce un mensaje, tenemos un _webhook_ enlazado al evento de _message_. De ésta forma, cuando un usuario envía un mensaje, _Facebook Messenger_, lanza el evento _message_ y sus consecuentes _webhooks_, enviando en este caso a _API.ai_ un documento _JSON_ usando un `POST` HTTP a nuestra _Callback URL_ de _API.ai_ que configuramos previamente con los datos del mensaje.
+
+El formato de dicho documento es el siguiente:
+```json
+{
+    "sender": {
+        "id": "USER_ID"
+    },
+    "recipient": {
+        "id": "PAGE_ID"
+    },
+    "timestamp": 1458692752478,
+    "message": {
+        "mid": "mid.1457764197618:41d102a3e1ae206a38",
+        "text": "hello, world!",
+        "quick_reply": {
+            "payload": "DEVELOPER_DEFINED_PAYLOAD"
+        },
+        "attachments": [{
+            "type":"image",
+            "payload": {
+                "url":"IMAGE_URL"
+            }
+        }]
+    }
+}
+```
+Dónde `sender` nos identifica el usuario que solicita el mensaje (con una ID de _Facebook_ que identifica su perfil), `recipient` el destinatario (seáse la página de _Facebook_ dónde envío el mensaje), `timestamp` el tiempo en segundos desde la época UNIX, y `message` un subdocumento _JSON_ que contiene no sólo el texto que envío el usuario (campo `text`), sino también el identificador del mensaje (campo `mid`) además de otros campos no relevantes.
+
+En el caso de tener archivos adjuntos, como imágenes o audio, un campo llamado `attachments` dentro del subdocumento `message` contendría estos en forma de `array`. Cada `attachment`,  contendria el tipo (`video`, `image`, `audio`...) en el campo `type`, y su ubicación en el subdocument `payload`, normalmente, la `URL` para acceder a éste
+
+#### Envío de respuestas
+Para responder a los mensajes recibidos, no debemos responder al `POST` con datos, sino realizar nosotros un `POST` a la siguiente `URL`:
+```
+https://graph.facebook.com/v2.6/me/messages?access_token=<PAGE_ACCESS_TOKEN>
+```
+Con la respuesta o mensaje a enviar, en un documento _JSON_ del siguiente formato:
+```json
+{
+    "recipient": {
+        "id": "USER_ID"
+    },
+    "message": {
+        "text": "hello, world!"
+    }
+}
+```
+Dónde `recipient.id` es el destinatario (lo identificamos por el `sender.id` del document JSON para recibir mensajes) y `message.text` es el texto a enviar como respuesta.
+
+> Todo este proceso lo realiza de forma automágica _API.ai_ para gestionar la integración con _Facebook_, pero en el caso de querer características adicionales, deberíamos de integrar esta _API_ en nuestro _webservice_ para poder comunicarnos con _Facebook Messenger_. Luego podríamos seguir usando _API.ai_ para procesado de lenguaje natural usando su _API_ de comunicaciones.
+
+### API de API.ai
+El siguiente paso es la comunicación mediante _webhook_ de _API.ai_ con nuestro _webservice_ para proporcionar una respuesta válida a la pregunta sobre el estado meteorológico. Para ello, _API.ai_ realizará una petición _POST_ a nuestro _webservice_ en _Heroku_ solicitando el estado meteorológico de una ciudad indicada, que esperará como respuesta a dicho _POST_ la respuesta a enviar al usuario finalmente.
+#### Notificación de API.ai a nuestro _webservice_
+El formato de documento que usa _API.ai_ para notificarnos una nueva solicitud del estado climatológico es:
+```json
+{
+    "originalRequest": {
+        "source": "facebook",
+        "data": {
+            "sender": {
+                "id": "1489813491089329"
+            },
+            "recipient": {
+                "id": "1279462395495348"
+            },
+            "message": {
+                "mid": "mid.$cAASLqmo2AKxiFRbtuVb49GlQTWWv",
+                "text": "Que tiempo hace en Mollet?",
+                "seq": 125729
+            },
+            "timestamp": 1.494175819193E12
+        }
+    },
+    "id": "40a543cf-5543-4b3c-a942-dbb6a47173ad",
+    "timestamp": "2017-05-07T16:50:19.621Z",
+    "lang": "es",
+    "result": {
+        "source": "agent",
+        "resolvedQuery": "Que tiempo hace en Mollet?",
+        "speech": "",
+        "action": "",
+        "actionIncomplete": false,
+        "parameters": {
+            "geo-city": "Mollet"
+        },
+        "contexts": [{
+            "name": "generic",
+            "parameters": {
+                "geo-city": "Mollet",
+                "geo-city.original": "Mollet",
+                "facebook_sender_id": "1489813491089329"
+            },
+            "lifespan": 3
+        }],
+        "metadata": {
+            "intentId": "163a1f8a-aacd-4ce9-a81f-13d4d04dcc28",
+            "webhookUsed": "true",
+            "webhookForSlotFillingUsed": "false",
+            "intentName": "Tiempo"
+        },
+        "fulfillment": {
+            "speech": "Déjame consultar ...",
+            "messages": [{
+                "type": 0,
+                "speech": "Déjame consultar ..."
+            }]
+        },
+        "score": 0.92
+    },
+    "status": {
+        "code": 200,
+        "errorType": "success"
+    },
+    "sessionId": "a639035c-ce83-42fb-be16-e52237cd45f6"
+}
+```
+Vemos que en el documento que nos envía _API.ai_ podemos obtener la _request_ original de _Facebook_, usando su API, en el campo `originalRequest`. En el campo `lang` se nos indica el código del idioma de la petición, y lo más importante se encuentra el el subdocumento del campo `result`, en el que aparece el resultado del procesado del lenguaje natural. Allí vemos que podemos obtener la ciudad que el usuario ha indicado en `parameters.geo-city` y que el _intent_ es el de obtener el tiempo en `metadata.intentName`.
+
+#### Respuesta a _API.ai_
+Como respuesta a dicho mensaje, debemos responder un documento _JSON_ con el formato especificado en la [_API_ de _webhooks_ de _API.ai_](https://docs.api.ai/docs/webhook#webhook-example). La respuesta debe producirse en menos de 5 esgundos para poder tenerse en cuenta, de lo contrario, se responderá un texto (o varios) por defecto configurable en _API.ai_
+```json
+{
+    "speech": "Algo de nubes",
+    "displayText": "Algo de nubes"
+}
+```
+La respuesta debe contener dos campos, `speech` y `displayText` con el texto a devolver al usuario. La diferencia entre estos dos campos es que el `speech` es el texto a pronunciar en el caso que se vaya a devolver un texto hablado y `displayText` el texto escrito a mostrar. **Ambos deben estar especificados en el documento, aunque sean iguales** para que _API.ai_ pueda procesar la respuesta.
+
+
+### API de OpenWeatherMap
+La última _API_ es la que usa nuestro _webservice_ para comunicarse con _OpenWeatherMap_ y obtener el tiempo de una ciudad.
+
+#### Solicitud de tiempo
+Para solicitar el estado meteorológico de una ciudad, debemos hacer una petición `GET` HTTP a la URL
+```
+https://api.openweathermap.org/data/2.5/weather?q=London&lang=es&appid=<token>
+```
+En la URL se indican los parámetros como la ciudad, la _API key_ para autorizarnos como solicitantes lícitos (y restringirnos el servicio si realizamos más peticiones de la cuenta) o el idioma.
+
+> Es importante no publicar la llave API en un repositorio público, por lo que podemos hacer para proteger dicha llave es guardar la llave en una variable de entorno que [configuraremos en _Heroku_](https://devcenter.heroku.com/articles/heroku-local#set-up-your-local-environment-variables) y codificar en _Java_ que la llave API la obtenga leyendo dicha variable de entorno
+
+#### Respuesta a la solicitud del tiempo
+La respuesta a dicha petición es un documento _JSON_ con el siguiente formato:
+```json
+{
+    "coord": {
+        "lon": -0.13,
+        "lat": 51.51
+    },
+    "weather": [{
+        "id": 300,
+        "main": "Drizzle",
+        "description": "light intensity drizzle",
+        "icon": "09d"
+    }],
+    "base": "stations",
+    "main": {
+        "temp": 280.32,
+        "pressure": 1012,
+        "humidity": 81,
+        "temp_min": 279.15,
+        "temp_max": 281.15
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 4.1,
+        "deg": 80
+    },
+    "clouds": {
+        "all": 90
+    },
+    "dt": 1485789600,
+    "sys": {
+        "type": 1,
+        "id": 5091,
+        "message": 0.0103,
+        "country": "GB",
+        "sunrise": 1485762037,
+        "sunset": 1485794875
+    },
+    "id": 2643743,
+    "name": "London",
+    "cod": 200
+}
+```
+Dónde el campo que aprovecharemos será el `weather.main` que contiene una descripción del tiempo en la ciudad en forma de texto en el idioma seleccionado
 ## Test del _chatbot_
+### Enlace del _chatbot_
+El _chatbot_ puede usarse desde el siguiente enlace:
+<center>https://www.messenger.com/t/1279462395495348</center>
 Finalmente, probamos que nuestro _chatbot_ ya está listo y operativo
 
 <center>![](pics/rest_mandatory/fb/chat/06_response_polite.png)</center>
@@ -308,6 +511,9 @@ A partir de aquí, podemos comenzar a desarrollar para ofrecer una experiencia d
 
 <center>![](pics/rest_mandatory/fb/chat/04_google_search.png)</center>
 
-## Enlace del _chatbot_
-El _chatbot_ puede usarse desde el siguiente enlace:
-<center>https://www.messenger.com/t/1279462395495348</center>
+## Repositorio
+El código de nuestro _webservice_ se encuentra en _GitHub_ en el siguiente repositorio:
+<center>https://github.com/uab-projects/ats-webservice</center>
+Esta misma documentación se encuentra allí accesible en formato _Markdown_, _PDF_ y _HTML_ en la rama `gh-pages` y es visible en:
+
+<center>https://uab.codes/ats-webservice/</center>
