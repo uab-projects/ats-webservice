@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Memoria_REST</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+
+    <style>
+    .markdown-preview-enhanced pre.editor-colors.editor-colors,
+.markdown-preview-enhanced code {
+  background-color: #f7f7f7 !important;
+}
+pre.editor-colors {
+  background-color: #fff;
+  color: #333;
+}
+pre.editor-colors .line.cursor-line {
+  background-color: #f5f5f5;
+}
+pre.editor-colors .invisible {
+  color: #c0c0c0;
+}
+pre.editor-colors .cursor {
+  border-left: 2px solid #000;
+}
+pre.editor-colors .selection .region {
+  background-color: #c8c8fa;
+}
+pre.editor-colors .bracket-matcher .region {
+  border-bottom: 1px solid #000;
+  box-sizing: border-box;
+}
+pre.editor-colors .invisible-character {
+  color: #c0c0c0;
+}
+pre.editor-colors .indent-guide {
+  color: #c0c0c0;
+}
+pre.editor-colors .wrap-guide {
+  background-color: #c0c0c0;
+}
+pre.editor-colors .gutter {
+  background-color: #fff;
+  color: #333;
+}
+pre.editor-colors .gutter .line-number {
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+pre.editor-colors .gutter .line-number.cursor-line {
+  color: #333;
+  background-color: #f5f5f5;
+}
+pre.editor-colors .gutter .line-number.cursor-line-no-selection {
+  background-color: transparent;
+}
+pre.editor-colors .gutter .line-number .icon-right {
+  color: #333;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed.git-line-removed::before {
+  bottom: -3px;
+}
+pre.editor-colors .gutter:not(.git-diff-icon) .line-number.git-line-removed::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 25px;
+  border-bottom: 1px dotted rgba(255, 236, 236, 0.5);
+  pointer-events: none;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #333;
+}
+pre.editor-colors .search-results .mpe-syntax--marker .region {
+  background-color: transparent;
+  border: 1px solid #ed6a43;
+}
+pre.editor-colors .search-results .mpe-syntax--marker.current-result .region {
+  border: 1px solid #fff;
+}
+.mpe-syntax--comment,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--comment,
+.mpe-syntax--string.mpe-syntax--comment {
+  color: #969896;
+}
+.mpe-syntax--constant,
+.mpe-syntax--entity.mpe-syntax--name.mpe-syntax--constant,
+.mpe-syntax--variable.mpe-syntax--other.mpe-syntax--constant,
+.mpe-syntax--variable.mpe-syntax--language {
+  color: #0086b3;
+}
+.mpe-syntax--entity,
+.mpe-syntax--entity.mpe-syntax--name {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #795da3;
+}
+.mpe-syntax--variable.mpe-syntax--parameter.mpe-syntax--function {
+  color: #333;
+}
+.mpe-syntax--entity.mpe-syntax--name.mpe-syntax--tag {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #63a35c;
+}
+.mpe-syntax--keyword {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #a71d5d;
+}
+.mpe-syntax--storage,
+.mpe-syntax--storage.mpe-syntax--type {
+  color: #a71d5d;
+}
+.mpe-syntax--storage.mpe-syntax--modifier.mpe-syntax--package,
+.mpe-syntax--storage.mpe-syntax--modifier.mpe-syntax--import,
+.mpe-syntax--storage.mpe-syntax--type.mpe-syntax--java {
+  color: #333;
+}
+.mpe-syntax--string,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--string,
+.mpe-syntax--string .mpe-syntax--punctuation.mpe-syntax--section.mpe-syntax--embedded .mpe-syntax--source {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #183691;
+}
+.mpe-syntax--support {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--property-name {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--variable {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #ed6a43;
+}
+.mpe-syntax--variable.mpe-syntax--other {
+  color: #333;
+}
+.mpe-syntax--invalid.mpe-syntax--broken {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--invalid.mpe-syntax--deprecated {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--invalid.mpe-syntax--illegal {
+  font-style: italic;
+  text-decoration: underline;
+  background-color: #b52a1d;
+  color: #f8f8f8;
+}
+.mpe-syntax--carriage-return {
+  font-style: italic;
+  text-decoration: underline;
+  background-color: #b52a1d;
+  color: #f8f8f8;
+  undefined: ^M;
+}
+.mpe-syntax--invalid.mpe-syntax--unimplemented {
+  font-weight: bold;
+  font-style: italic;
+  text-decoration: underline;
+  color: #b52a1d;
+}
+.mpe-syntax--message.mpe-syntax--error {
+  color: #b52a1d;
+}
+.mpe-syntax--string .mpe-syntax--source {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #333;
+}
+.mpe-syntax--string .mpe-syntax--variable {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--source.mpe-syntax--regexp,
+.mpe-syntax--string.mpe-syntax--regexp {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #183691;
+}
+.mpe-syntax--string.mpe-syntax--regexp.mpe-syntax--character-class,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--constant.mpe-syntax--character.mpe-syntax--escape,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--source.mpe-syntax--ruby.mpe-syntax--embedded,
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--string.mpe-syntax--regexp.mpe-syntax--arbitrary-repitition {
+  color: #183691;
+}
+.mpe-syntax--string.mpe-syntax--regexp .mpe-syntax--constant.mpe-syntax--character.mpe-syntax--escape {
+  font-weight: bold;
+  color: #63a35c;
+}
+.mpe-syntax--support.mpe-syntax--constant {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--support.mpe-syntax--variable {
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--module-reference {
+  color: #0086b3;
+}
+.mpe-syntax--markup.mpe-syntax--list {
+  color: #693a17;
+}
+.mpe-syntax--markup.mpe-syntax--heading,
+.mpe-syntax--markup.mpe-syntax--heading .mpe-syntax--entity.mpe-syntax--name {
+  font-weight: bold;
+  color: #1d3e81;
+}
+.mpe-syntax--markup.mpe-syntax--quote {
+  color: #008080;
+}
+.mpe-syntax--markup.mpe-syntax--italic {
+  font-style: italic;
+  color: #333;
+}
+.mpe-syntax--markup.mpe-syntax--bold {
+  font-weight: bold;
+  color: #333;
+}
+.mpe-syntax--markup.mpe-syntax--raw {
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: none;
+  color: #0086b3;
+}
+.mpe-syntax--markup.mpe-syntax--deleted,
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header.mpe-syntax--from-file,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--deleted {
+  background-color: #ffecec;
+  color: #bd2c00;
+}
+.mpe-syntax--markup.mpe-syntax--inserted,
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header.mpe-syntax--to-file,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--inserted {
+  background-color: #eaffea;
+  color: #55a532;
+}
+.mpe-syntax--markup.mpe-syntax--changed,
+.mpe-syntax--punctuation.mpe-syntax--definition.mpe-syntax--changed {
+  background-color: #ffe3b4;
+  color: #ef9700;
+}
+.mpe-syntax--markup.mpe-syntax--ignored,
+.mpe-syntax--markup.mpe-syntax--untracked {
+  color: #d8d8d8;
+  background-color: #808080;
+}
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--range {
+  color: #795da3;
+  font-weight: bold;
+}
+.mpe-syntax--meta.mpe-syntax--diff.mpe-syntax--header {
+  color: #0086b3;
+}
+.mpe-syntax--meta.mpe-syntax--separator {
+  font-weight: bold;
+  color: #1d3e81;
+}
+.mpe-syntax--meta.mpe-syntax--output {
+  color: #1d3e81;
+}
+.mpe-syntax--brackethighlighter.mpe-syntax--tag,
+.mpe-syntax--brackethighlighter.mpe-syntax--curly,
+.mpe-syntax--brackethighlighter.mpe-syntax--round,
+.mpe-syntax--brackethighlighter.mpe-syntax--square,
+.mpe-syntax--brackethighlighter.mpe-syntax--angle,
+.mpe-syntax--brackethighlighter.mpe-syntax--quote {
+  color: #595e62;
+}
+.mpe-syntax--brackethighlighter.mpe-syntax--unmatched {
+  color: #b52a1d;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--mark.mpe-syntax--error {
+  color: #b52a1d;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--mark.mpe-syntax--warning {
+  color: #ed6a43;
+}
+.mpe-syntax--sublimelinter.mpe-syntax--gutter-mark {
+  color: #c0c0c0;
+}
+.mpe-syntax--constant.mpe-syntax--other.mpe-syntax--reference.mpe-syntax--link,
+.mpe-syntax--string.mpe-syntax--other.mpe-syntax--link {
+  color: #183691;
+  text-decoration: underline;
+}
+.markdown-preview-enhanced {
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  overflow: initial;
+  margin: 10px 13px 10px 13px;
+  padding: 2em;
+  box-sizing: border-box;
+  word-wrap: break-word;
+}
+.markdown-preview-enhanced > :first-child {
+  margin-top: 0;
+}
+.markdown-preview-enhanced[is="space-pen-div"] {
+  width: 100%;
+  margin: 0;
+  z-index: 999;
+  overflow: scroll;
+  font-size: 16px;
+  display: block;
+  position: absolute;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2,
+.markdown-preview-enhanced h3,
+.markdown-preview-enhanced h4,
+.markdown-preview-enhanced h5,
+.markdown-preview-enhanced h6 {
+  line-height: 1.2;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  color: #000000;
+}
+.markdown-preview-enhanced h1 {
+  font-size: 2.25em;
+  font-weight: 300;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced h2 {
+  font-size: 1.75em;
+  font-weight: 400;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced h3 {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.markdown-preview-enhanced h4 {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h5 {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h6 {
+  font-size: 1.0em;
+  font-weight: 600;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2,
+.markdown-preview-enhanced h3,
+.markdown-preview-enhanced h4,
+.markdown-preview-enhanced h5 {
+  font-weight: 600;
+}
+.markdown-preview-enhanced h5 {
+  font-size: 1em;
+}
+.markdown-preview-enhanced h6 {
+  color: #5c5c5c;
+}
+.markdown-preview-enhanced h1,
+.markdown-preview-enhanced h2 {
+  border-bottom: 1px solid #d6d6d6;
+}
+.markdown-preview-enhanced strong {
+  color: #000000;
+}
+.markdown-preview-enhanced del {
+  color: #5c5c5c;
+}
+.markdown-preview-enhanced a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+.markdown-preview-enhanced a {
+  color: #08c;
+  text-decoration: none;
+}
+.markdown-preview-enhanced a:hover {
+  color: #0050a3;
+  text-decoration: none;
+}
+.markdown-preview-enhanced img,
+.markdown-preview-enhanced svg {
+  max-width: 100%;
+}
+.markdown-preview-enhanced > p {
+  margin-top: 0;
+  margin-bottom: 16px;
+  word-wrap: break-word;
+}
+.markdown-preview-enhanced > ul,
+.markdown-preview-enhanced > ol {
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced ul,
+.markdown-preview-enhanced ol {
+  padding-left: 2em;
+}
+.markdown-preview-enhanced ul.no-list,
+.markdown-preview-enhanced ol.no-list {
+  padding: 0;
+  list-style-type: none;
+}
+.markdown-preview-enhanced ul ul,
+.markdown-preview-enhanced ul ol,
+.markdown-preview-enhanced ol ol,
+.markdown-preview-enhanced ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced li {
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced li.task-list-item {
+  list-style: none;
+}
+.markdown-preview-enhanced li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced .task-list-item-checkbox {
+  margin: 0 0.2em 0.25em -1.6em;
+  vertical-align: middle;
+}
+.markdown-preview-enhanced .task-list-item-checkbox:hover {
+  cursor: pointer;
+}
+.markdown-preview-enhanced blockquote {
+  margin: 16px 0;
+  font-size: inherit;
+  padding: 0 15px;
+  color: #5c5c5c;
+  border-left: 4px solid #d6d6d6;
+}
+.markdown-preview-enhanced blockquote > :first-child {
+  margin-top: 0;
+}
+.markdown-preview-enhanced blockquote > :last-child {
+  margin-bottom: 0;
+}
+.markdown-preview-enhanced hr {
+  height: 4px;
+  margin: 32px 0;
+  background-color: #d6d6d6;
+  border: 0 none;
+}
+.markdown-preview-enhanced table {
+  margin: 10px 0 15px 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: normal;
+  word-break: keep-all;
+}
+.markdown-preview-enhanced table th {
+  font-weight: bold;
+  color: #000000;
+}
+.markdown-preview-enhanced table td,
+.markdown-preview-enhanced table th {
+  border: 1px solid #d6d6d6;
+  padding: 6px 13px;
+}
+.markdown-preview-enhanced dl {
+  padding: 0;
+}
+.markdown-preview-enhanced dl dt {
+  padding: 0;
+  margin-top: 16px;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+}
+.markdown-preview-enhanced dl dd {
+  padding: 0 16px;
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced code {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.85em !important;
+  color: #000000;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  padding: 0.2em 0;
+}
+.markdown-preview-enhanced code::before,
+.markdown-preview-enhanced code::after {
+  letter-spacing: -0.2em;
+  content: "\00a0";
+}
+.markdown-preview-enhanced pre > code {
+  padding: 0;
+  margin: 0;
+  font-size: 0.85em !important;
+  word-break: normal;
+  white-space: pre;
+  background: transparent;
+  border: 0;
+}
+.markdown-preview-enhanced .highlight {
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced .highlight pre,
+.markdown-preview-enhanced pre {
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  padding: 16px;
+  overflow: auto;
+  font-size: 0.85em !important;
+  line-height: 1.45;
+  color: #333;
+  background-color: #f0f0f0 !important;
+  border: #d6d6d6;
+  border-radius: 3px;
+}
+.markdown-preview-enhanced .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+.markdown-preview-enhanced pre {
+  word-wrap: break-word;
+  white-space: normal;
+  word-break: break-all;
+}
+.markdown-preview-enhanced pre .section {
+  opacity: 1;
+}
+.markdown-preview-enhanced pre code,
+.markdown-preview-enhanced pre tt {
+  display: inline;
+  max-width: initial;
+  padding: 0;
+  margin: 0;
+  overflow: initial;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+.markdown-preview-enhanced pre code:before,
+.markdown-preview-enhanced pre tt:before,
+.markdown-preview-enhanced pre code:after,
+.markdown-preview-enhanced pre tt:after {
+  content: normal;
+}
+.markdown-preview-enhanced p,
+.markdown-preview-enhanced blockquote,
+.markdown-preview-enhanced ul,
+.markdown-preview-enhanced ol,
+.markdown-preview-enhanced dl,
+.markdown-preview-enhanced pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+.markdown-preview-enhanced kbd {
+  color: #000000;
+  border: 1px solid #d6d6d6;
+  border-bottom: 2px solid #c7c7c7;
+  padding: 2px 4px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+.markdown-preview-enhanced .pagebreak,
+.markdown-preview-enhanced .newpage {
+  page-break-before: always;
+}
+@media screen and (min-width: 914px) {
+  .markdown-preview-enhanced {
+    width: 980px;
+    margin: 10px auto;
+    background: #fff;
+  }
+}
+@media screen and (max-width: 400px) {
+  .markdown-preview-enhanced {
+    font-size: 14px;
+    margin: 0 auto;
+    padding: 15px;
+  }
+}
+@media print {
+  .markdown-preview-enhanced {
+    background-color: #fff;
+    /*table,*/
+  }
+  .markdown-preview-enhanced h1,
+  .markdown-preview-enhanced h2,
+  .markdown-preview-enhanced h3,
+  .markdown-preview-enhanced h4,
+  .markdown-preview-enhanced h5,
+  .markdown-preview-enhanced h6 {
+    color: #000000;
+    page-break-after: avoid;
+  }
+  .markdown-preview-enhanced blockquote {
+    color: #5c5c5c;
+  }
+  .markdown-preview-enhanced pre {
+    page-break-inside: avoid;
+  }
+  .markdown-preview-enhanced table {
+    display: table;
+  }
+  .markdown-preview-enhanced img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+  }
+  .markdown-preview-enhanced pre,
+  .markdown-preview-enhanced code {
+    word-wrap: break-word;
+    white-space: normal;
+  }
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk {
+  position: relative;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .output-div {
+  overflow-x: auto;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .output-div svg {
+  display: block;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk pre {
+  cursor: text;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .btn-group {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: none;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .btn-group .run-btn,
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .btn-group .run-all-btn {
+  float: right;
+  margin-left: 4px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  color: #eee;
+  background-color: #528bff;
+  background-image: none;
+  border: none;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .btn-group .run-btn:hover,
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .btn-group .run-all-btn:hover {
+  background-color: #4b7fe8;
+  cursor: pointer;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk:hover .btn-group {
+  display: block;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk .status {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 0.85em;
+  color: inherit;
+  padding: 2px 6px;
+  background-color: rgba(0, 0, 0, 0.04);
+  display: none;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk.running .btn-group {
+  display: none;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .code-chunk.running .status {
+  display: block;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .back-to-top-btn,
+.markdown-preview-enhanced[is="space-pen-div"] .refresh-btn {
+  position: fixed;
+  display: none;
+  right: 24px;
+  top: 54px;
+}
+.markdown-preview-enhanced[is="space-pen-div"] .back-to-top-btn {
+  right: 72px;
+}
+.markdown-preview-enhanced[is="space-pen-div"]:hover .back-to-top-btn,
+.markdown-preview-enhanced[is="space-pen-div"]:hover .refresh-btn {
+  display: block;
+  opacity: 0.4;
+}
+.markdown-preview-enhanced[is="space-pen-div"]:hover .back-to-top-btn:hover,
+.markdown-preview-enhanced[is="space-pen-div"]:hover .refresh-btn:hover {
+  opacity: 1.0;
+}
+.markdown-preview-enhanced:not([is="space-pen-div"]) .code-chunk .btn-group {
+  display: none;
+}
+.markdown-preview-enhanced:not([is="space-pen-div"]) .code-chunk .status {
+  display: none;
+}
+.markdown-preview-enhanced:not([is="space-pen-div"]) .back-to-top-btn {
+  display: none;
+}
+/*
+ * Reveal.js styles
+ */
+[data-presentation-preview-mode] {
+  background-color: #f4f4f4;
+}
+[data-presentation-preview-mode] .preview-slides {
+  width: 100%;
+}
+[data-presentation-preview-mode] .preview-slides .slide {
+  position: relative;
+  background-color: #fff;
+  padding: 2em !important;
+  margin-bottom: 12px;
+  text-align: left !important;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0px 0px 16px 4px #eeeeee;
+  font-size: 24px;
+}
+[data-presentation-preview-mode] .preview-slides .slide h1,
+[data-presentation-preview-mode] .preview-slides .slide h2,
+[data-presentation-preview-mode] .preview-slides .slide h3,
+[data-presentation-preview-mode] .preview-slides .slide h4,
+[data-presentation-preview-mode] .preview-slides .slide h5,
+[data-presentation-preview-mode] .preview-slides .slide h6 {
+  margin-top: 0;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe,
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border: none;
+  z-index: 1;
+}
+[data-presentation-preview-mode] .preview-slides .slide .background-iframe-overlay {
+  z-index: 2;
+}
+[data-presentation-preview-mode] section {
+  display: block;
+  width: 100%;
+  transform-style: preserve-3d;
+  font-size: 100%;
+  font: inherit;
+  z-index: 100;
+}
+.markdown-preview-enhanced[data-presentation-mode] {
+  font-size: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.markdown-preview-enhanced[data-presentation-mode] h1,
+.markdown-preview-enhanced[data-presentation-mode] h2,
+.markdown-preview-enhanced[data-presentation-mode] h3,
+.markdown-preview-enhanced[data-presentation-mode] h4,
+.markdown-preview-enhanced[data-presentation-mode] h5,
+.markdown-preview-enhanced[data-presentation-mode] h6 {
+  margin-top: 0;
+}
+.markdown-preview-enhanced[data-presentation-mode] strong {
+  font-weight: bold;
+}
+.markdown-preview-enhanced[data-presentation-mode]::-webkit-scrollbar {
+  display: none;
+}
+.markdown-preview-enhanced .slides {
+  text-align: left !important;
+}
+
+    /*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+
+    
+  </head>
+  <body class="markdown-preview-enhanced   "  >
+
+  <p><center><br>
+<h1>Práctica de SOA</h1><br>
+<h2>Servicios REST usando JEE (Jersey + Jetty), lanzados con Heroku, usando NLP via API.ai e integrados con Facebook Messenger</h2><br>
+<h3>Arquitecturas y Tecnologías del Software</h3><br>
+<br><br>
+<h4>Autores</h4><br>
+<b>David Lozano Jarque (NIU 1359958)</b><br>
+<b>Carlos González Cebrecos (NIU 1212586)</b><br>
+<b>Adrián Soria Bonilla (NIU 1360940)</b><br>
+<br><br>
+Escuela de Ingeniería, Universidad Autónoma de Barcelona<br>
+Curso 2016-2017<br>
+</center></p>
+<div style="page-break-after: always;"></div>
+<h1 id="introducci&#xF3;n">Introducción</h1>
+<p>En esta práctica, desarrollaremos un <a href="https://es.wikipedia.org/wiki/Bot_conversacional"><em>chatbot</em></a> en la plataforma <a href="https://www.facebook.com"><em>Facebook</em></a>, usando su producto de chat <a href="https://es-es.messenger.com"><em>Facebook Messenger</em></a>. Para ello, usaremos <a href="https://api.api"><em>API.ai</em></a> con el objetivo de reconocer el lenguaje natural <a href="https://en.wikipedia.org/wiki/Natural_language_processing"><em>NLP</em></a> e interpretarlo para ofrecer respuestas coherentes.</p>
+<p>Finalmente, usaremos un sevicio web <a href="https://en.wikipedia.org/wiki/Representational_state_transfer"><em>REST</em></a> que implementaremos usando <a href="https://jersey.java.net"><em>Jersey</em></a>, servido usando <a href="https://www.eclipse.org/jetty"><em>Jetty</em></a> y lo publicaremos mediante <a href="https://heroku.com"><em>Heroku</em></a> para que sea accesible públicamente. Éste servicio web REST lo usaremos para que <a href="https://api.api"><em>API.ai</em></a> pueda obtener mediante nuestra API datos relevantes, en éste caso, le proveeremos del estado meteorológico dada una ciudad que <em>API.ai</em> nos interpretará a partir de los mensajes recibidos en <em>Facebook Messenger</em>.</p>
+<p><center><img src="pics/rest_mandatory/00_system_diagram.png" alt=""></center></p>
+<h2 id="creaci&#xF3;n-del-_chatbot_-en-_facebook-messenger_">Creación del <em>chatbot</em> en <em>Facebook Messenger</em></h2>
+<p>En primer lugar, para poder empezar a unir todos estos servicios tenemos que estar registrados en todas las plataformas. Empezaremos realizando el registro en <a href="https://developer.facebook.com"><em>Facebook Developer</em></a> (que requiere previo registro en la red social <em>Facebook</em>) para poder desarrollar aplicaciones sobre <em>Facebook</em>, en nuestro caso el <em>chatbot</em>. También deberemos crear una página de Facebook para vincular nuestro <em>chatbot</em> con ésta.</p>
+<p>Una vez en la plataforma de desarrolladores y habiendo creado una página en la red social, crearemos una aplicación.</p>
+<p><center><img src="pics/rest_mandatory/fb/00_fb_developer_2.png" alt=""></center></p>
+<p><center><img src="pics/rest_mandatory/fb/00_fb_developer.png" alt=""></center></p>
+<p>Una vez creada la aplicación en <em>Facebook</em> ya podremos conectar un <em>chatbot</em> con la plataforma <em>API.ai</em></p>
+<h3 id="conexi&#xF3;n-con-_apiai_httpsapiai">Conexión con <a href="https://api.ai"><em>API.ai</em></a></h3>
+<h4 id="registro">Registro</h4>
+<p>Comenzaremos por registrarnos en <a href="https://api.ai">api.ai</a> y crear un nuevo <a href="https://docs.api.ai/docs/concept-agents">agente</a>. Los agentes son la interfície del <em>chatbot</em> que convertirá las conversaciones en lenguaje natural en acciones a realizar para proporcionar respuestas coherentes.</p>
+<p>Una vez creado nuestro agente, podemos configurar algunos aspectos importantes como el idioma o la zona horaria.</p>
+<p><center><img src="pics/rest_mandatory/api.ai/00_page_creation.png" alt=""></center></p>
+<h4 id="integraci&#xF3;n-con-_facebook-messenger_">Integración con <em>Facebook Messenger</em></h4>
+<p>Una vez hecho esto, deberemos vincularlo con nuestra aplicación de <em>Facebook</em>, yendo al apartado <em>integrations</em> de la plataforma <em>API.ai</em>, y seleccionaremos <em>Facebook Messenger</em>. Una vez elegido, se nos desplegará un menú como el siguiente, donde deberemos introducir los datos que nos solicite.</p>
+<p><center><img src="pics/rest_mandatory/02_fb_integration.png" alt=""></center><br>
+El significado de los campos es el siguiente:</p>
+<ul>
+<li><p><strong>Callback URL</strong><br>
+URL que debemos configurar en la plataforma de desarrollo de <em>Facebook</em>, en el apartado de <em>Messenger</em>, para que cuando recibamos un mensaje del chat, haga una petición <em>POST</em> hacia <em>API.ai</em> para que éste interprete el mensaje y devuelva una respuesta. Cómo vemos, la URL apunta a los servidores de <em>API.ai</em> que usando nuestro agente responderán al chat de forma automática.</p></li>
+</ul>
+<ul>
+<li><p><strong>Verify Token</strong><br>
+Cadena de caracteres que <strong>debemos crear (preferiblemente de forma aleatoria)</strong> como clave para que sólo el que la posea pueda usar nuestro agente. Hemos de escoger bien la clave, puesto que si escogemos una clave o token débil, cualquiera que conozca nuestra <em>Callback URL</em> puede usar el <em>chatbot</em> directamente sin pasar por <em>Facebook</em> de forma no autorizada</p></li>
+</ul>
+<ul>
+<li><p><strong>Page Access Token</strong><br>
+Token que autentica a <em>API.ai</em> frente a <em>Facebook</em> para que pueda enviar respuestas a los mensajes.</p></li>
+</ul>
+<p>Ahora debemos entrar en la plataforma de desarrollo de Facebook, e introducir un nuevo <em>webhook</em> en el apartado de <em>Messenger</em>, con la <em>Callback URL</em> indicada y <em>Verify Token</em>.</p>
+<p><center><img src="pics/rest_mandatory/fb/01_create_app.png" alt=""></center></p>
+<p>Finalmente, nos dirigimos al apartado de <em>Generación de token</em> en la misma página de <em>Messenger</em> de la aplicación de Facebook en la plataforma de Facebook Developers y copiamos el <em>Page Access Token</em> en el formulario de <em>API.ai</em>.<br>
+<center><img src="pics/rest_mandatory/fb/00_fb_developer_token.png" alt=""></center></p>
+<h4 id="desarrollo-del-_chatbot_">Desarrollo del <em>chatbot</em></h4>
+<p>Ahora debemos programar nuestro <em>chatbot</em>. Por ello el siguiente paso es crear unos cuantos <a href="https://docs.api.ai/docs/concept-intents"><em>intents</em></a>, para que nuestro <em>chatbot</em> reconozca intenciones del usuario y empiece a dar respuestas válidas, como por ejemplo el saludo en una conversación, algunas frases de cortesía y demás.</p>
+<p>Por defecto, se encuentra el <em>Default Fallback intent</em>, que contestará al usuario frases para que el usuario vuelva a repetir la pregunta o texto de forma diferente puesto que se ejecutará cuando no se haya detectado ninguna otra intención.</p>
+<p><center><img src="pics/rest_mandatory/api.ai/01_intents.png" alt=""></center></p>
+<p>Lo más básico es crear un <em>intent</em> para reconocer saludos y dar respuesta. Dado un mensaje concreto del usuario (que el <em>chatbot</em> intentará relacionar si es un mensaje similar), deberemos definir las posibles respuestas que dará nuestro agente.</p>
+<p><center><img src="pics/rest_mandatory/api.ai/02_intent_detail.png" alt=""></center></p>
+<p>Nosotros también crearemos un <em>intent</em> para que nuestro <em>chatbot</em> conteste a la pregunta:</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Qué&nbsp;tiempo&nbsp;hace&nbsp;en&nbsp;&lt;Ciudad&gt;?</span></span></span></div></pre>
+<p>Y llamaremos a dicho <em>intent</em> <code>Weather</code>. También podemos introducir otras frases para que reconozca dicho <em>intent</em>, como</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Clima&nbsp;en&nbsp;&lt;Ciudad&gt;?</span></span></span></div><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>Hace&nbsp;frío&nbsp;en&nbsp;&lt;Ciudad&gt;?</span></span></span></div></pre>
+<p>Para que reconozca la ciudad, debemos escribir las anteriores frases con una ciudad de ejemplo y marcar la ciudad como una <a href="https://docs.api.ai/docs/concept-entities">entidad</a>. Las entidades definen conceptos y permiten relacionar las acciones o <em>intents</em> con conceptos físicos o abstractos. Podemos definir entidades personalizadas o usar las que existen por defecto. En nuestro caso, usaremos una por defecto, llamada <em>@sys-geocity</em> que identifica ciudades.</p>
+<p>Finalmente, debemos proporcionar una respuesta a la pregunta. Para ello, desarrollaremos un servicio web con API REST para que dada la ciudad que envíe <em>API.ai</em> una vez interpretado el mensaje del usuario, nos devuelva el tiempo de dicha ciudad.</p>
+<p>Debemos desarrollar un servicio web propio puesto que debe interpretar los mensajes que enviará <em>API.ai</em> que vienen dado un <a href="https://docs.api.ai/docs/webhook">formato específico</a>, por lo que no podemos usar directamente una API REST para obtener el tiempo. Nuestro servicio web actuará de intermediario.</p>
+<h4 id="webhooks-en-_apiai_">Webhooks en <em>API.ai</em></h4>
+<p>Para que <em>API.ai</em> envíe la solicitud del tiempo indicando la ciudad a nuestro servicio web, debemos de nuevo configurar un <em>webhook</em> para que <em>API.ai</em> solicite a nuestro servicio web la respuesta del tiempo.</p>
+<p>Nos dirigimos al apartado de <em>fulfillment</em> y creamos un nuevo <em>webhook</em> del cual indicamos su URL. También nos permite usar autenticación para comprobar que <em>API.ai</em> está autorizado a usar el webservice (igual que <em>Facebook Messenger</em> con <em>API.ai</em> en la integración realizada previamente), pero nosotros no lo configuraremos, simplemente introduciremos nuestra URL del <em>webservice</em>.</p>
+<p><center><img src="pics/rest_mandatory/api.ai/03_fulfillment.png" alt=""></center></p>
+<blockquote>
+<p>La URL del webservice la suponemos puesto que vamos a crear una aplicación en Heroku con nombre personalizado. En el caso de desconocerla, podemos realizar este paso de integración con <em>webhooks</em> una vez creado el webservice y por lo tanto cuando conozcamos dicha URL</p>
+</blockquote>
+<p>En último lugar, nos dirigimos al intent de <em>Weather</em> y seleccionamos la casilla de <em>webhook</em> para en el caso de recibir un mensaje con solicitud del estado meteorológico, solicitar al servicio web nuestro con el <em>webhook</em> configurado la respuesta.</p>
+<p><center><img src="pics/rest_mandatory/api.ai/04_webhook.png" alt=""></center></p>
+<h2 id="creaci&#xF3;n-de-_webservice_-rest-usando-_jersey-jetty_-y-publicado-en-_heroku_">Creación de <em>webservice</em> REST usando <em>Jersey, Jetty</em> y publicado en <em>Heroku</em></h2>
+<h3 id="creaci&#xF3;n-del-_webservice_">Creación del <em>webservice</em></h3>
+<p><em>Jersey</em> nos ofrece un arquetipo de <em>Maven</em> preparado para desarrollar un servicio web de forma rápida, y además, con código extra (fichero <em>Procfile</em>) para poder una vez desarrollado locamente y probado, enviarlo para su publicación online a <em>Heroku</em>.</p>
+<p>En la página de <a href="https://jersey.java.net/documentation/latest/getting-started.html"><em>Getting started</em></a> de <em>Jersey</em> nos indican el comando a realizar para crear el proyecto usando dicho arquetipo de <em>Maven</em>:</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>mvn&nbsp;archetype:generate</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DarchetypeArtifactId=jersey-heroku-webapp&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DarchetypeGroupId=org.glassfish.jersey.archetypes&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DinteractiveMode=false&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DgroupId=com.example&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DartifactId=simple-heroku-webapp&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-Dpackage=com.example&nbsp;\</span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>&nbsp;&nbsp;&nbsp;&nbsp;-DarchetypeVersion=2.25.1</span></span></div></pre>
+<p>Una vez ejecutamos el comando, podemos empezar a desarrollar el sevicio web, importando el proyecto en nuestro IDE favorito, como <em>Eclipse</em>.</p>
+<h3 id="desarrollo-del-_webservice_">Desarrollo del <em>webservice</em></h3>
+<p>Podemos ver que en <code>com.domain.heroku.Main.java</code> tenemos un fichero que contiene código para ejecutar el servidor de aplicaciones JEE con nuestro <em>webservice</em> ya publicado.</p>
+<p>Pero el fichero interesante es <code>com.domain.resources.ApiResource.java</code>, dónde se encuentra un ejemplo de <code>GET</code> y <code>POST</code> de nuestro <em>webservice</em></p>
+<pre class="editor-colors lang-java"><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--declaration mpe-syntax--annotation mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@Path</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>api</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>class</span></span><span>&nbsp;</span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--type mpe-syntax--class mpe-syntax--java"><span>ApiResource</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--class mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@GET</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--declaration mpe-syntax--annotation mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@Produces</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>MediaType</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>APPLICATION_JSON</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--return-type mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Response</span></span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getIt</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>return</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>status</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--constant mpe-syntax--numeric mpe-syntax--decimal mpe-syntax--java"><span>200</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>entity</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>{}</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>build</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@POST</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--declaration mpe-syntax--annotation mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@Produces</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>MediaType</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>APPLICATION_JSON</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--return-type mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Response</span></span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>postIt</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--parameter mpe-syntax--java"><span>req</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>return</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>status</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--constant mpe-syntax--numeric mpe-syntax--decimal mpe-syntax--java"><span>200</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>entity</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>req</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>build</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--class mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></div></pre>
+<p>El código indica que cuando realicemos una petición <code>GET</code> a nuestro servidor JEE en la URL <code>/api</code>, nos devolverá el <em>string</em> <code>{}</code>, que al ser devuelto con tipo <em>JSON</em>, interpretará como un objeto <em>JSON</em> vacío. En el caso del <code>POST</code>, devolverá los datos que reciba.</p>
+<p>Con este ejemplo, ya podemos lanzar nuestro <em>webservice</em> usando el comando</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>mvn&nbsp;clean&nbsp;install</span></span></div></pre>
+<p>Para compilar y</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>mvn&nbsp;jetty:run</span></span></div></pre>
+<p>Para ejecutar el servidor <em>Jetty</em> con nuestro <em>webservice</em> lanzado.</p>
+<h3 id="consumici&#xF3;n-del-servicio-web-de-meteorolog&#xED;a-conectado-a-_apiai_">Consumición del servicio web de meteorología conectado a <em>API.ai</em></h3>
+<p>Tal y como hemos mencionado antes, nuestro <em>webservice</em> ha de interpretar los mensajes que <em>API.ai</em> nos envie mediante el <em>webhook</em> que configuramos para responder el tiempo de la ciudad solicitada. El diagrama del sistema entonces se ampliaría al siguiente:</p>
+<p><center><img src="pics/rest_mandatory/heroku/rest_system_weather.png" alt=""></center></p>
+<h4 id="_openweathermap_"><em>OpenWeatherMap</em></h4>
+<p>El servicio REST que consumiremos para obtener el tiempo de una ciudad es <a href="https://openweathermap.org"><em>OpenWeatherMap</em></a>, que según su <a href="https://openweathermap.org/current">documentación</a> requiere que para obtener el tiempo de una ciudad, realicemos un <code>GET</code> a la siguiente URL</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>https://api.openweathermap.org/data/2.5/weather</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--glob mpe-syntax--shell"><span>?</span></span><span>q=London</span></span></div></pre>
+<p>Donde <em>London</em> es la ciudad a consultar. También necesitamos añadir a estos <em>query parameters</em> de la URL una <em>API key</em> (parámetro <code>appid</code>) que podemos obtener registrándonos en <em>OpenWeatherMap</em> y opcionalmente añadir el idioma de la respuesta mediante el parámetro <code>lang</code>, de manera que la URL a la que realizar el <code>GET</code> es</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>https://api.openweathermap.org/data/2.5/weather</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--glob mpe-syntax--shell"><span>?</span></span><span>q=London</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--list mpe-syntax--shell"><span>&amp;</span></span><span>lang=es</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--list mpe-syntax--shell"><span>&amp;</span></span><span>appid=</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--redirect mpe-syntax--shell"><span>&lt;</span></span><span>token</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--redirect mpe-syntax--shell"><span>&gt;</span></span></span></div></pre>
+<h4 id="c&#xF3;digo-para-consumir-el-servicio">Código para consumir el servicio</h4>
+<p>Para consumir el servicio, crearemos una nueva clase en el proyecto dónde con un método <em>main</em> podremos comprobar localmente si podemos obtener correctamente el tiempo de una ciudad pasada por parámetro.</p>
+<p>Usaremos la librería <em>JSON</em> de <code>javax</code>, en su implementación de <code>Glassfish</code> para analizar la <a href="http://samples.openweathermap.org/data/2.5/weather?q=London,uk&amp;appid=b1b15e88fa797225412429c1c50c122a1">respuesta proporcionada por <em>OpenWeatherMap</em></a>, convirtiéndo el <em>String</em> de respuesta en un objeto Java más fácil de manipular y acceder a los campos del obejto <em>JSON</em>. El código resultante es el siguiente:</p>
+<pre class="editor-colors lang-java"><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>class</span></span><span>&nbsp;</span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--type mpe-syntax--class mpe-syntax--java"><span>WeatherConsumer</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--class mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>static</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--return-type mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--primitive mpe-syntax--java"><span>void</span></span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>main</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--object mpe-syntax--array mpe-syntax--java"><span>String</span></span><span class="mpe-syntax--punctuation mpe-syntax--bracket mpe-syntax--square mpe-syntax--java"><span>[</span><span>]</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--parameter mpe-syntax--java"><span>args</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>System</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--property mpe-syntax--java"><span>out</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>println</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>weather</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>args</span><span class="mpe-syntax--punctuation mpe-syntax--bracket mpe-syntax--square mpe-syntax--java"><span>[</span></span><span class="mpe-syntax--constant mpe-syntax--numeric mpe-syntax--decimal mpe-syntax--java"><span>0</span></span><span class="mpe-syntax--punctuation mpe-syntax--bracket mpe-syntax--square mpe-syntax--java"><span>]</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>static</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--return-type mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--identifier mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>weather</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--parameter mpe-syntax--java"><span>city</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Cliente&nbsp;REST</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Client</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>client</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>ClientBuilder</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>newClient</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Generación&nbsp;de&nbsp;URL</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>api_key</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>&lt;api_key&gt;</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span><span>&nbsp;</span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;esto&nbsp;no&nbsp;lo&nbsp;revelamos&nbsp;:P</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>URL</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span class="mpe-syntax--markup mpe-syntax--underline mpe-syntax--link mpe-syntax--http mpe-syntax--hyperlink"><span>http://api.openweathermap.org/data/2.5/weather</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--java"><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--try mpe-syntax--java"><span>try</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--try mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>URL</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--arithmetic mpe-syntax--java"><span>+=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>?q=</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--arithmetic mpe-syntax--java"><span>+</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>URLEncoder</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>encode</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>city</span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>UTF-8</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>URL</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--arithmetic mpe-syntax--java"><span>+=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>&amp;lang=</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--arithmetic mpe-syntax--java"><span>+</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>URLEncoder</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>encode</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>es</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>UTF-8</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--try mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--try mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--java"><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--catch mpe-syntax--java"><span>catch</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--parameters mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>UnsupportedEncodingException</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--parameter mpe-syntax--java"><span>e</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--catch mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>e</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>printStackTrace</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--catch mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--catch mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>URL</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--arithmetic mpe-syntax--java"><span>+=</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>&amp;appid=</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--arithmetic mpe-syntax--java"><span>+</span></span><span>&nbsp;api_key</span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Petición&nbsp;GET</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>WebTarget</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>resource</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>client</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>target</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>URL</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Builder</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>request</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>resource</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>request</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>request</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>accept</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>MediaType</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>APPLICATION_JSON</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Response</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>response</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>request</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>get</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Análisis&nbsp;de&nbsp;la&nbsp;respuesta</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>if</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getStatusInfo</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getFamily</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--comparison mpe-syntax--java"><span>==</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Family</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>SUCCESSFUL</span></span><span class="mpe-syntax--punctuation mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Conversión&nbsp;String&nbsp;&lt;-&gt;&nbsp;JSON</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonReader</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>jsonReader</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Json</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>createReader</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--new mpe-syntax--java"><span>new</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>StringReader</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span></span></span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>readEntity</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>String</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>class</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonObject</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>json</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>jsonReader</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>readObject</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>jsonReader</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>close</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Obtención&nbsp;del&nbsp;campo&nbsp;description,&nbsp;dentro&nbsp;del&nbsp;primer&nbsp;objeto</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;del&nbsp;array&nbsp;contenido&nbsp;en&nbsp;el&nbsp;campo&nbsp;&quot;weather&quot;</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonArray</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>weatherArray</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>json</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getJsonArray</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>weather</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonObject</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>weatherFirstObject</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>weatherArray</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getJsonObject</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--constant mpe-syntax--numeric mpe-syntax--decimal mpe-syntax--java"><span>0</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>weatherDescription</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>weatherFirstObject</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getString</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>description</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Devolución&nbsp;del&nbsp;resultado</span><span>&nbsp;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>return</span></span><span>&nbsp;weatherDescription</span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>else</span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>System</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--property mpe-syntax--java"><span>out</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>println</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>ERROR:&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--arithmetic mpe-syntax--java"><span>+</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getStatus</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>System</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--property mpe-syntax--java"><span>out</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>println</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getEntity</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>return</span></span><span>&nbsp;</span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>No&nbsp;se&nbsp;ha&nbsp;encontrado&nbsp;respuesta</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--body mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--method mpe-syntax--body mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--method mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--class mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--class mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></span></div></pre>
+<p>Probamos el código localmente y comprobamos que efectivamente, devuelve el tiempo en dicha ciudad, en castellano.</p>
+<h4 id="respondiendo-a-_apiai_">Respondiendo a <em>API.ai</em></h4>
+<p>El último paso es responder al <code>POST</code> de <em>API.ai</em> con el tiempo, obteniendo primero la ciudad dados los datos proporcionados por <em>API.ai</em> y creando una respuesta interpretable por <em>API.ai</em></p>
+<h5 id="interpretando-los-datos-de-_apiai_">Interpretando los datos de <em>API.ai</em></h5>
+<p>Usando la <a href="https://docs.api.ai/docs/webhook">documentación de <em>API.ai</em></a>, podemos ver que los datos en formato <em>JSON</em> que nos enviará <em>API.ai</em> tienen un objeto <code>parameters</code> dentro del campo <code>result</code>, en el cual aparecen las entidades identificadas en el mensaje, en éste caso, la ciudad, del tipo <code>sys-geocity</code>.</p>
+<p>Para obtener la ciudad, pues, debemos convertir los datos que recibamos de <em>API.ai</em> en un objeto Java para acceder al campo deseado y llamar a nuestro cliente consumidor del servicio web de <em>OpenWeatherMap</em> para obtener el tiempo.</p>
+<p>Modificamos así el código del <code>POST</code> de ejemplo del proyecto y introducimos el siguiente código:</p>
+<pre class="editor-colors lang-java"><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@POST</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--declaration mpe-syntax--annotation mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@Produces</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>MediaType</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>APPLICATION_JSON</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Response</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>post</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;req</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Read&nbsp;JSON</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonReader</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>jsonReader</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Json</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>createReader</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--new mpe-syntax--java"><span>new</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>StringReader</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>req</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonObject</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>json</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>jsonReader</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>readObject</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>jsonReader</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>close</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>city</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;json</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getJsonObject</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>result</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getJsonObject</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>parameters</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>getString</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>geo-city</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>weather</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>WeatherConsumer</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>weather</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>city</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;[...]</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></div></pre>
+<p>De manera que ahora en la variable <code>city</code> tendremos la ciudad a devolver el tiempo y mediante la llamada a nuestro consumidor del servicio web, obtendremos el resultado en la variable <code>weather</code>.</p>
+<h5 id="devolviendo-el-resultado-a-_apiai_">Devolviendo el resultado a <em>API.ai</em></h5>
+<p>Siguiendo la documentación de <em>API.ai</em> debemos devolver un objeto <em>JSON</em> como respuesta a la petición que contenga el texto a devolver al usuario en el campo <code>speech</code> y <code>displayText</code>.</p>
+<p>Continuamos el desarrollo de la función anterior para elaborar la respuesta.</p>
+<pre class="editor-colors lang-java"><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@POST</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--declaration mpe-syntax--annotation mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--annotation mpe-syntax--java"><span>@Produces</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>MediaType</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--property mpe-syntax--java"><span>APPLICATION_JSON</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--annotation-arguments mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--modifier mpe-syntax--java"><span>public</span></span><span>&nbsp;</span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>Response</span></span><span>&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--function-call mpe-syntax--java"><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>post</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;req</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span>&nbsp;</span><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--begin mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>{</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;[...]</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Elaboramos&nbsp;respuesta</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonBuilderFactory</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>responseFactory</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Json</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>createBuilderFactory</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--constant mpe-syntax--language mpe-syntax--java"><span>null</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>JsonObject</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>response</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>responseFactory</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>createObjectBuilder</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>add</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>speech</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span><span>&nbsp;weather</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>add</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--string mpe-syntax--quoted mpe-syntax--double mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--begin mpe-syntax--java"><span>&quot;</span></span><span>displayText</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--string mpe-syntax--end mpe-syntax--java"><span>&quot;</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--delimiter mpe-syntax--java"><span>,</span></span><span>&nbsp;weather</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>build</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Convertimos&nbsp;respuesta&nbsp;a&nbsp;String</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--meta mpe-syntax--definition mpe-syntax--variable mpe-syntax--java"><span class="mpe-syntax--storage mpe-syntax--type mpe-syntax--java"><span>String</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--definition mpe-syntax--java"><span>responseString</span></span><span>&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--operator mpe-syntax--assignment mpe-syntax--java"><span>=</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>toString</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--whitespace mpe-syntax--comment mpe-syntax--leading mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></span><span class="mpe-syntax--comment mpe-syntax--line mpe-syntax--double-slash mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--comment mpe-syntax--java"><span>//</span></span><span>&nbsp;Enviamos&nbsp;respuesta</span><span>&nbsp;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="mpe-syntax--keyword mpe-syntax--control mpe-syntax--java"><span>return</span></span><span>&nbsp;</span><span class="mpe-syntax--variable mpe-syntax--other mpe-syntax--object mpe-syntax--java"><span>Response</span></span><span class="mpe-syntax--meta mpe-syntax--method-call mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>status</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--constant mpe-syntax--numeric mpe-syntax--decimal mpe-syntax--java"><span>200</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>entity</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span>responseString</span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span><span class="mpe-syntax--punctuation mpe-syntax--separator mpe-syntax--period mpe-syntax--java"><span>.</span></span><span class="mpe-syntax--entity mpe-syntax--name mpe-syntax--function mpe-syntax--java"><span>build</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--begin mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>(</span></span><span class="mpe-syntax--punctuation mpe-syntax--definition mpe-syntax--parameters mpe-syntax--end mpe-syntax--bracket mpe-syntax--round mpe-syntax--java"><span>)</span></span></span><span class="mpe-syntax--punctuation mpe-syntax--terminator mpe-syntax--java"><span>;</span></span></span></div><div class="line"><span class="mpe-syntax--source mpe-syntax--java"><span class="mpe-syntax--punctuation mpe-syntax--section mpe-syntax--block mpe-syntax--end mpe-syntax--bracket mpe-syntax--curly mpe-syntax--java"><span>}</span></span></span></div></pre>
+<p>Ahora sólo nos queda publicar el servicio web en <em>Heroku</em> para que <em>API.ai</em> pueda usar el <em>webhook</em></p>
+<h3 id="desplegando-el-servicio-en-_heroku_">Desplegando el servicio en <em>Heroku</em></h3>
+<p>Para no tener el servidor con el <em>webservice</em> en nuestra máquina local, usaremos <a href="https://dashboard.heroku.com"><em>Heroku</em></a> que nos permitirá tener de forma gratuita nuestro servicio web alojado en una máquina virtual de <a href="https://aws.amazon.com/es"><em>Amazon Web Services</em></a>.</p>
+<p>Para ello, primero debemos instalar las <a href="https://devcenter.heroku.com/articles/heroku-cli"><em>Heroku CLI Tools</em></a> para poder ejecutar comandos que nos permitan comunicarnos con <em>Heroku</em> para lanzar nuestras aplicaciones.</p>
+<p>En primer lugar, debemos iniciar sesión desde el terminal (debemos habernos registrado previamente)</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>heroku&nbsp;login</span></span></div></pre>
+<p>Una vez iniciada la sesión, creamos una nueva aplicación donde lanzaremos nuestro proyecto. Para ello, nos situamos en el directorio del proyecto y ejecutamos el siguiente comando</p>
+<pre class="editor-colors lang-bash"><div class="line"><span class="mpe-syntax--source mpe-syntax--shell"><span>heroku&nbsp;create&nbsp;ats-webservice</span></span></div></pre>
+<p>Esto nos creará una aplicación disponible en la URL</p>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span class="mpe-syntax--markup mpe-syntax--underline mpe-syntax--link mpe-syntax--https mpe-syntax--hyperlink"><span>https://ats-webservice.herokuapp.com</span></span></span></span></div></pre>
+<p>Para enviar nuestro proyecto allí, debemos realizar un commit con los cambios y subirlo al remoto de <em>Heroku</em></p>
+<pre class="editor-colors lang-text"><div class="line"><span class="mpe-syntax--text mpe-syntax--plain"><span class="mpe-syntax--meta mpe-syntax--paragraph mpe-syntax--text"><span>git&nbsp;add&nbsp;.&nbsp;&amp;&amp;&nbsp;git&nbsp;commit&nbsp;&amp;&amp;&nbsp;git&nbsp;push&nbsp;heroku&nbsp;master</span></span></span></div></pre>
+<p>También podemos vincular a través del panel de administración web de Heroku, un repositorio de <em>GitHub</em> para que cuando se realice un <code>push</code> a una determinada <code>branch</code>, <em>Heroku</em> automáticamente actualice el proyecto con el último <em>commit</em> de la rama.</p>
+<p><center><img src="pics/rest_mandatory/heroku/01_heroku_github_automatic.png" alt=""></center></p>
+<h2 id="test-del-_chatbot_">Test del <em>chatbot</em></h2>
+<p>Finalmente, probamos que nuestro <em>chatbot</em> ya está listo y operativo</p>
+<p><center><img src="pics/rest_mandatory/fb/chat/06_response_polite.png" alt=""></center></p>
+<h3 id="continuaci&#xF3;n-del-desarrollo">Continuación del desarrollo</h3>
+<p>A partir de aquí, podemos comenzar a desarrollar para ofrecer una experiencia de usuario más cómoda, cercana y divertida</p>
+<p><center><img src="pics/rest_mandatory/fb/chat/03_santo&#xF1;a.png" alt=""></center></p>
+<p><center><img src="pics/rest_mandatory/fb/chat/04_google_search.png" alt=""></center></p>
+<h2 id="enlace-del-_chatbot_">Enlace del <em>chatbot</em></h2>
+<p>El <em>chatbot</em> puede usarse desde el siguiente enlace:<br>
+<center><a href="https://www.messenger.com/t/1279462395495348">https://www.messenger.com/t/1279462395495348</a></center></p>
+
+
+  </body>
+  
+</html>
